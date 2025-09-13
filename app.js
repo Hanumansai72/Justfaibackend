@@ -22,7 +22,7 @@ app.use(cors());
 // Handle preflight requests
 
 // --- DB Connection ---
-const mongoURI = process.env.mongoURI_perment;
+const mongoURI = process.env.mongoURI;
 
 mongoose
   .connect(mongoURI)
