@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const Signup = require("../Backend/src/models/Signup");
+const Signup = require("./src/models/Signup");
 
 
 // Load env variables
