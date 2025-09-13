@@ -1,4 +1,3 @@
-// app.js
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
@@ -7,21 +6,16 @@ const dotenv = require("dotenv");
 const Signup = require("./src/models/Signup");
 
 
-// Load env variables
 dotenv.config();
 
 const app = express();
 
-// Middleware
 app.use(express.json());
 
-// CORS setup
 
 app.use(cors()); 
 
-// Handle preflight requests
 
-// --- DB Connection ---
 const mongoURI = process.env.mongoURI;
 
 mongoose
@@ -101,7 +95,6 @@ app.post("/api/signup/freelancers/register", async (req, res) => {
 
 
 
-// ❌ Do NOT use app.listen() in Vercel
 app.listen(8031, () => {
   console.log("Server started on http://localhost:8031");
 });
