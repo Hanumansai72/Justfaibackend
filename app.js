@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const Signup = require("./src/models/Signup");
+const jwt = require("jsonwebtoken");
+
 
 
 dotenv.config();
