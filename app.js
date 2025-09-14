@@ -25,10 +25,23 @@ mongoose
     console.error("❌ MongoDB connection error:", err);
     process.exit(1);
   });
+//function checking authenticate users
+const authenticate = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ message: "No token provided" });
+
+  const token = authHeader.split(" ")[1];
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded; // attach user data
+    next();
+  } catch (err) {
+    return res.status(403).json({ message: "Invalid or expired token" });
+  }
+};
 
 
-
-// --- Signup Route ---
+// --- Freelancer Signup Route ---
 app.post("/api/signup/freelancers/register", async (req, res) => {
   try {
     const {
@@ -90,6 +103,40 @@ app.post("/api/signup/freelancers/register", async (req, res) => {
       message: "Failed to save freelancer",
       error: err.message,
     });
+  }
+});
+app.post("/api/freelancers/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const freelancer = await Signup.findOne({ email });
+    if (!freelancer) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(password, freelancer.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    const token = jwt.sign(
+      { id: freelancer._id, email: freelancer.email },
+      JWT_SECRET,
+      { expiresIn: "1h" } // expires in 1 hour
+    );
+
+    res.json({
+      message: "Login successful",
+      token,
+      user: {
+        id: freelancer._id,
+        email: freelancer.email,
+        name: freelancer.name, // adjust as needed
+      },
+    });
+  } catch (error) {
+    console.error("❌ Login error:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
