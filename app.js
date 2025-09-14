@@ -16,6 +16,8 @@ app.use(express.json());
 
 
 app.use(cors()); 
+const JWT_SECRET = process.env.JWT_SECRET || "mySuperSecretKey";
+
 
 
 const mongoURI = process.env.mongoURI;
@@ -124,7 +126,7 @@ app.post("/api/freelancers/login", async (req, res) => {
     const token = jwt.sign(
       { id: freelancer._id, email: freelancer.email },
       JWT_SECRET,
-      { expiresIn: "1h" } // expires in 1 hour
+      { expiresIn: "1h" }
     );
 
     res.json({
@@ -133,7 +135,7 @@ app.post("/api/freelancers/login", async (req, res) => {
       user: {
         id: freelancer._id,
         email: freelancer.email,
-        name: freelancer.name, // adjust as needed
+        fullName: freelancer.FullName,
       },
     });
   } catch (error) {
@@ -141,8 +143,6 @@ app.post("/api/freelancers/login", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
-
 
 app.listen(8031, () => {
   console.log("Server started on http://localhost:8031");
