@@ -8,6 +8,10 @@ const Signupschema=new mongoose.Schema({
     lowercase: true,
     trim: true
   },
+  role:{
+    type:String,
+    default:"freelancer"
+  },
   password:{
     type:String,
     required:true
