@@ -36,7 +36,6 @@ async function usersignup(req, res) {
       language,
       title,
       portfolioFiles,
-      resumeFile,
       hourlyRate,
     } = req.body;
 
@@ -56,7 +55,6 @@ async function usersignup(req, res) {
       language,
       title,
       portfolioFiles,
-      resumeFile,
       hourlyRate,
     });
 
@@ -64,21 +62,18 @@ async function usersignup(req, res) {
       success: true,
       message: "Freelancer registered successfully",
     });
-
   } catch (err) {
-    if (err.code === 11000) {
-      return res.status(409).json({
-        success: false,
-        message: "Email, phone number, or username already exists",
-      });
-    }
+  console.error(" SIGNUP ERROR:", err);
+  return res.status(500).json({
+    success: false,
+    message: err.message,
+  
+  });
 
-    return res.status(500).json({
-      success: false,
-      message: "Failed to register freelancer",
-    });
+    
   }
 }
+
 
 async function userlogin(req, res) {
   try {
@@ -109,8 +104,14 @@ async function userlogin(req, res) {
         fullName: freelancer.fullName,
       },
     });
-  } catch (error) {
-    res.status(500).json({ message: "Server error" });
+  } catch (err) {
+  console.error("🔥 SIGNUP ERROR:", err);
+  return res.status(500).json({
+    success: false,
+    message: err.message,
+  });
+
+    
   }
 }
 async function getprofile(req, res) {
