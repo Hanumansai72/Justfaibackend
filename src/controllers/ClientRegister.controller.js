@@ -11,7 +11,7 @@ async function clientSignup(req,res){
             password:hashedPassword,
             fullName
         })
-        const token=jwt.sign({id:newClient._id},process.env.JWT_SECRET,{expiresIn:"1h"})
+        const token=jwt.sign({id:newClient._id},process.env.JWT_SECRET||"JUSTFAI",{expiresIn:"1h"})
         res.status(201).json({message:"Client registered successfully",token})
     }catch(err){
         console.error("CLIENT SIGNUP ERROR:",err)
@@ -28,7 +28,7 @@ async function clientLogin(req,res){
         if(!isMatch){
             return res.status(400).json({message:"Invalid credentials"})
         }
-        const token=jwt.sign({id:client._id},process.env.JWT_SECRET,{expiresIn:"1h"})
+        const token=jwt.sign({id:client._id},process.env.JWT_SECRET||"JUSTFAI",{expiresIn:"1h"})
         res.json({message:"Login successful",token})
         
      }catch(err){
