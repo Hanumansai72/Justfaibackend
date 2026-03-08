@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const Signup = require("../models/FreelancerSignup.model.js");
+const Signup = require("../models/Freelancer/FreelancerSignup.model.js");
 const cloudinary=require("../middlewares/cloudnary.middleware.js")
 
 async function upload(req,res) {

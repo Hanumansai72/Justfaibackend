@@ -8,19 +8,19 @@ const { createProject ,addMilestone,getallproject,getprojectbyid} = require("../
 const router = express.Router();
 
 router.post(
-    "/api/register",
+    "/register",
     [body("email").isEmail().withMessage("Invalid email"),
      body("password").isLength({ min: 8 }).withMessage("Password too short"),
      body("fullName").notEmpty().withMessage("Full name required")]
     ,validateRequest,ratelimiter,clientSignup)
 router.post(
-    "/api/login",
+    "/login",
     [body("email").isEmail().withMessage("Invalid email"),
      body("password").notEmpty().withMessage("Password required")]
     ,validateRequest,ratelimiter,clientLogin)
-router.get("/api/profile",authenticate,getprofile)
-router.post("/api/postproject",authenticate,createProject)
-router.post("/api/addmilestone/:projectId",authenticate,addMilestone)
-router.get("/api/getprojects",authenticate,getallproject)
-router.get("/api/getproject/:projectId",authenticate,getprojectbyid)    
+router.get("/profile",authenticate,getprofile)
+router.post("/postproject",authenticate,createProject)
+router.post("/addmilestone/:projectId",authenticate,addMilestone)
+router.get("/getprojects",authenticate,getallproject)
+router.get("/getproject/:projectId",authenticate,getprojectbyid)    
 module.exports = router;
