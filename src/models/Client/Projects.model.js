@@ -17,7 +17,7 @@ const ProjectSchema = new mongoose.Schema({
         enum: ['DRAFT', 'OPEN', 'HIRED', 'IN_PROGRESS', 'COMPLETED', 'DISPUTED'],
         default: 'DRAFT'
     },
-    milestones: [MilestoneSchema],
+    milestones: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Milestone' }],
     escrow: {
         totalLocked: { type: Number, default: 0 },
         totalReleased: { type: Number, default: 0 }

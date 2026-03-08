@@ -9,8 +9,7 @@ const ClientSchema=new mongoose.Schema({
     },
     password:{
         type:String,
-        required:true,
-        unique:true
+        required:true
     },
     fullName:{
         type:String,

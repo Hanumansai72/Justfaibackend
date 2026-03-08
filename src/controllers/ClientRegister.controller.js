@@ -47,6 +47,7 @@ async function getprofile(req,res) {
             if (!client) {
                 return res.status(404).json({ message: "Client not found" });
             }
+            res.status(200).json({ client });
         }   
         catch (err) {
             console.error("GET PROFILE ERROR:", err);
