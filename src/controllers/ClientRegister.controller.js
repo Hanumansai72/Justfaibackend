@@ -5,10 +5,6 @@ const jwt=require("jsonwebtoken")
 async function clientSignup(req,res){
     try{
         const {email,password,fullName}=req.body
-        const existingUser=await clientModel.findOne({email})
-        if(existingUser){
-            return res.status(400).json({message:"Email already exists"})
-        } 
         const hashedPassword=await bcrypt.hash(password,10)
         const newClient=await clientModel.create({
             email,
