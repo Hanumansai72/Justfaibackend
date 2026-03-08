@@ -1,37 +1,26 @@
 const mongoose = require("mongoose");
 
-const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
-
 const connectDB = async (attempt = 1) => {
-  const maxAttempts = 5;
-  const uri = process.env.mongoURI;
-  if (!uri) {
-    throw new Error("mongoURI environment variable is not set");
+  if (mongoose.connection.readyState >= 1) {
+    console.log("✅ Database already connected.");
+    return;
   }
 
-  const options = {
-    serverSelectionTimeoutMS: 20000,
-    socketTimeoutMS: 45000,
-  };
-
   try {
-    await mongoose.connect(uri, options);
-    mongoose.set("bufferCommands", false);
-    console.log("✅ Database connected");
+    const maxAttempts = 5;
+    const uri = "mongodb+srv://hanumansai72_db_user:1bzz278cMk1G4tgN@cluster0.mmul0uw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+    if (!uri) {
+      throw new Error("mongoURI environment variable is not set");
+    }
 
-    mongoose.connection.on("connected", () => console.log("MongoDB connected"));
-    mongoose.connection.on("error", (err) => console.error("MongoDB error:", err));
-    mongoose.connection.on("disconnected", () => console.warn("MongoDB disconnected"));
-
+    await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
+    console.log("✅ Database Connected");
     return true;
   } catch (err) {
-    console.error(`❌ Failed to connect database (attempt ${attempt}/${maxAttempts}):`, err && err.message ? err.message : err);
-    if (attempt < maxAttempts) {
-      const delay = 2000 * attempt;
-      console.log(`Retrying connection in ${delay}ms...`);
-      await sleep(delay);
-      return connectDB(attempt + 1);
-    }
+    console.error("❌ Failed to connect database", err.message);
     throw err;
   }
 };
