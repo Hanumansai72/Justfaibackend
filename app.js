@@ -9,8 +9,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/api", userroutes);
-app.use("/api", clientroutes);
+app.use("/api/freelancers", userroutes);
+app.use("/api/clients", clientroutes);
 
 
 
