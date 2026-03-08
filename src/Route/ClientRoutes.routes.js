@@ -12,12 +12,12 @@ router.post(
     [body("email").isEmail().withMessage("Invalid email"),
      body("password").isLength({ min: 8 }).withMessage("Password too short"),
      body("fullName").notEmpty().withMessage("Full name required")]
-    ,validateRequest,ratelimiter,clientSignup)
+    ,validateRequest,clientSignup)
 router.post(
     "/login",
     [body("email").isEmail().withMessage("Invalid email"),
      body("password").notEmpty().withMessage("Password required")]
-    ,validateRequest,ratelimiter,clientLogin)
+    ,validateRequest,clientLogin)
 router.get("/profile",authenticate,getprofile)
 router.post("/postproject",authenticate,createProject)
 router.post("/addmilestone/:projectId",authenticate,addMilestone)
