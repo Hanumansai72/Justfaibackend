@@ -61,6 +61,7 @@ async function addMilestone(req, res) {
     try {
         const { projectId } = req.params
         const { title, description, amount, dueDate } = req.body
+
         const newMilestone = await Milestone.create({
             project: projectId,
             title,
@@ -68,7 +69,18 @@ async function addMilestone(req, res) {
             amount,
             dueDate
         })
-        res.status(201).json({ message: "Milestone added successfully", milestone: newMilestone })
+
+        // 🔹 Link milestone to project
+        await Project.findByIdAndUpdate(
+            projectId,
+            { $push: { milestones: newMilestone._id } }
+        )
+
+        res.status(201).json({
+            message: "Milestone added successfully",
+            milestone: newMilestone
+        })
+
     } catch (err) {
         console.error("ADD MILESTONE ERROR:", err)
         res.status(500).json({ message: err.message })
