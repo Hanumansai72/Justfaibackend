@@ -11,7 +11,7 @@ if (!process.env.JWT_SECRET) {
     process.exit(1);
   } else {
     console.warn("Warning: JWT_SECRET not set. Using a development fallback secret.");
-    process.env.JWT_SECRET = "dev_jwt_secret_change_me";
+    process.env.JWT_SECRET = "JUSTFAI";
   }
 }
 

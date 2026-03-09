@@ -13,7 +13,7 @@ connectDB();
 app.set('trust proxy', 1);
 app.use(express.json());
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://justfai-clients.vercel.app/'], // Add your Vercel frontend URL here if needed
+    origin: ['http://localhost:3000', 'https://justfaiclients.vercel.app'],
     credentials: true,
 }));
 
